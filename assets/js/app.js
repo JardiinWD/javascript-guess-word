@@ -16,7 +16,7 @@ wrongLetter = document.querySelector(".wrong-letter span")
 typingInput = document.querySelector(".typing-input")
 
 /* Parola */
-let word, incorrects = [];
+let word, corrects = [], incorrects = [];
 
 
 /**
@@ -65,7 +65,7 @@ function initGame(element) {
     let key = element.target.value;
     console.log(`Questa è la verifica della variabile key : ${key}`);
     /* Condizione necessaria per digitare le lettere */
-    if (key.match(/^[A-Za-z]+$/) && !incorrects.includes(`${key}`)) {
+    if (key.match(/^[A-Za-z]+$/) && !incorrects.includes(`${key}`) && !corrects.includes(key)) {
         console.log(key);
         /* Condizione per verificare se quello digitato dall'utente è presente nella parola*/
         if (word.includes(key)) {
@@ -73,6 +73,8 @@ function initGame(element) {
             for (let i = 0; i < word.length; i++) {
                 /* Dove se la parola (word) corrisponde alla key */
                 if (word[i] === key) {
+                    /* Se fosse corretta la pusho nel mio array vuoto */
+                    corrects.push(key)
                     /* io appendo alla costante inputs questa parola dicendo che il valore
                     dell'input equivale a Key */
                     inputs.querySelectorAll("input")[i].value = key
