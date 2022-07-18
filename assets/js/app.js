@@ -64,7 +64,16 @@ function initGame(element) {
         console.log(key);
         /* Condizione per verificare se quello digitato dall'utente è presente nella parola*/
         if (word.includes(key)) {
-            console.log("Lettera trovata");
+            /* Se cosi fosse avvio un ciclo, con la lunghezza totale della parola */
+            for (let i = 0; i < word.length; i++) {
+                /* Dove se la parola (word) corrisponde alla key */
+                if (word[i] === key) {
+                    /* io appendo alla costante inputs questa parola dicendo che il valore
+                    dell'input equivale a Key */
+                    inputs.querySelectorAll("input")[i].value = key
+                }
+                console.log("Lettera trovata");
+            }
         } else {
             /* Altrimenti se non la trovo esce questo */
             console.log("Lettera non trovata");
