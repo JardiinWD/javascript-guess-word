@@ -65,7 +65,7 @@ function initGame(element) {
     let key = element.target.value;
     console.log(`Questa è la verifica della variabile key : ${key}`);
     /* Condizione necessaria per digitare le lettere */
-    if (key.match(/^[A-Za-z]+$/)) {
+    if (key.match(/^[A-Za-z]+$/) && !incorrects.includes(`${key}`)) {
         console.log(key);
         /* Condizione per verificare se quello digitato dall'utente è presente nella parola*/
         if (word.includes(key)) {
@@ -82,7 +82,7 @@ function initGame(element) {
         } else {
             /* Altrimenti se non la trovo esce questo */
             /* console.log("Lettera non trovata"); */
-            incorrects.push(key);
+            incorrects.push(`${key}`);
         }
     }
     /* In caso di lettera sbagliata */
