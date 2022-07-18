@@ -5,6 +5,13 @@
 const inputs = document.querySelector(".inputs")
 /* Questa variabile è, a tutti gli effetti, il button principale per resettare il gioco */
 resetButton = document.querySelector(".reset-btn")
+/* ora pesco la classe della domanda */
+hint = document.querySelector(".hint span")
+/* ora pesco l'input dell'utente */
+typingInput = document.querySelector(".typing-input")
+
+/* Parola */
+let word;
 
 
 /**
@@ -15,10 +22,15 @@ function randomWord() {
     /* Questo è l'oggetto randomico */
     let ranObj = wordList[Math.floor(Math.random() * wordList.length)]
     /* Questa è la sola parola */
-    let word = ranObj.word
+    word = ranObj.word
     console.log("Questa è la verifica dell'oggetto randomico");
     console.log(ranObj);
     console.log(`Questa è la verifica della parola randomica : ${word}`);
+    /* Alla mia costante hint (riga 9) appendo la suggestion hint del mio random object */
+    /* Questa è dinamica e randomica */
+    hint.innerHTML = ranObj.hint
+
+
     /* Ora creo la zona di input in relazione alla lunghezza delle parole randomiche */
     /* Inizialmente vuota */
     let html = "";
@@ -39,3 +51,28 @@ randomWord();
 /* Aggiungo evento al click al reset button */
 /* In questo modo, ad ogni click cambio la parola randomica grazie alla function randomWord */
 resetButton.addEventListener("click", randomWord)
+
+/**
+ * Funzione per ascoltare l'input e i caratteri dettati dall'utente
+ * @param {string} element input dettato dall'utente
+ */
+function initGame(element) {
+    let key = element.target.value;
+    console.log(`Questa è la verifica della variabile key : ${key}`);
+    /* Aggiungo una condizione nel caso in cui l'utente, magari un pò scemo, scrive un numero invece di una lettera */
+    if (key.match(/^[A-Za-z]+$/)) {
+        console.log(key);
+        /* Condizione per verificare se quello digitato dall'utente è presente nella parola*/
+        if (word.includes(key)) {
+            console.log("Lettera trovata");
+        } else {
+            /* Altrimenti se non la trovo esce questo */
+            console.log("Lettera non trovata");
+        }
+    }
+}
+
+
+/* Evento dell'input utente */
+typingInput.addEventListener("input", initGame)
+document.addEventListener("keydown", () => typingInput.focus())
