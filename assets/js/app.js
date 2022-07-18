@@ -3,6 +3,8 @@
 
 /* Questa è la costante degli input disabilitata. con questa pesco il div genitore */
 const inputs = document.querySelector(".inputs")
+/* Questa variabile è, a tutti gli effetti, il button principale per resettare il gioco */
+resetButton = document.querySelector(".reset-btn")
 
 
 /**
@@ -22,7 +24,8 @@ function randomWord() {
     let html = "";
     /* Avvio ciclo for */
     for (let i = 0; i < word.length; i++) {
-        html = `<input type="text" disabled>`;
+        /* Essendo html inizialmente vuota la devo sommare poi nell'operazione */
+        html = html + `<input type="text" disabled>`;
     }
     /* Verifico la variabile html */
     console.log(`Questa è la verifica della variabile html : ${html}`);
@@ -30,6 +33,9 @@ function randomWord() {
     inputs.innerHTML = html
 }
 
-/* La invoco per verificare il console log */
+/* La invoco per effettuare il ciclo della parola randomica */
 randomWord();
 
+/* Aggiungo evento al click al reset button */
+/* In questo modo, ad ogni click cambio la parola randomica grazie alla function randomWord */
+resetButton.addEventListener("click", randomWord)
