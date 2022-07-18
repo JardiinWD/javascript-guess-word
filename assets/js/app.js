@@ -7,11 +7,16 @@ const inputs = document.querySelector(".inputs")
 resetButton = document.querySelector(".reset-btn")
 /* ora pesco la classe della domanda */
 hint = document.querySelector(".hint span")
+/* Lettera sbagliata */
+wrongLetter = document.querySelector(".wrong-letter span")
+
+
+
 /* ora pesco l'input dell'utente */
 typingInput = document.querySelector(".typing-input")
 
 /* Parola */
-let word;
+let word, incorrects = [];
 
 
 /**
@@ -59,7 +64,7 @@ resetButton.addEventListener("click", randomWord)
 function initGame(element) {
     let key = element.target.value;
     console.log(`Questa è la verifica della variabile key : ${key}`);
-    /* Aggiungo una condizione nel caso in cui l'utente, magari un pò scemo, scrive un numero invece di una lettera */
+    /* Condizione necessaria per digitare le lettere */
     if (key.match(/^[A-Za-z]+$/)) {
         console.log(key);
         /* Condizione per verificare se quello digitato dall'utente è presente nella parola*/
@@ -76,9 +81,15 @@ function initGame(element) {
             }
         } else {
             /* Altrimenti se non la trovo esce questo */
-            console.log("Lettera non trovata");
+            /* console.log("Lettera non trovata"); */
+            incorrects.push(key);
         }
     }
+    /* In caso di lettera sbagliata */
+    wrongLetter.innerText = incorrects;
+    /* Eseguo il clear dell'input una volta che l'utente ha digitato una lettera */
+    typingInput.value = ""
+
 }
 
 
