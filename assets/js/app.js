@@ -32,18 +32,22 @@ function randomWord() {
     word = ranObj.word
     /* Tentativi massimi dell'utente */
     maxGuess = 8
+    /* Resetto anche le parole corrette e non corrette */
+    corrects = [], incorrects = [];
 
     /*  
         console.log("Questa è la verifica dell'oggetto randomico");
         console.log(ranObj);
-        console.log(`Questa è la verifica della parola randomica : ${word}`); 
     */
+    console.log(`Questa è la verifica della parola randomica : ${word}`);
 
     /* Alla mia costante hint (riga 9) appendo la suggestion hint del mio random object */
     /* Questa è dinamica e randomica */
     hint.innerHTML = ranObj.hint
     /* Tentativi massimi */
     guessLeft.innerHTML = maxGuess
+    /* Reset della parola */
+    wrongLetter.innerText = incorrects;
 
     /* Ora creo la zona di input in relazione alla lunghezza delle parole randomiche */
     /* Inizialmente vuota */
@@ -62,9 +66,7 @@ function randomWord() {
 /* La invoco per effettuare il ciclo della parola randomica */
 randomWord();
 
-/* Aggiungo evento al click al reset button */
-/* In questo modo, ad ogni click cambio la parola randomica grazie alla function randomWord */
-resetButton.addEventListener("click", randomWord)
+
 
 /**
  * Funzione per ascoltare l'input e i caratteri dettati dall'utente
@@ -105,9 +107,31 @@ function initGame(element) {
     /* Eseguo il clear dell'input una volta che l'utente ha digitato una lettera */
     typingInput.value = ""
 
+    /* La condizione la salvo in una function setInterval per farla uscire dopo un po di tempo */
+    setTimeout(() => {
+        /* Condizione in caso di vittoria */
+        if (corrects.length === word.length) {
+            alert(`Congratulazioni, hai trovato la parola ${word.toUpperCase()} !`)
+            /* Invoco anche la function cosi il gioco si resetta */
+            randomWord()
+        }
+        /* Condizione di GameOver con comparsa della parola corretta */
+        else if (maxGuess < 1) {
+            alert("Game Over, non hai più tentativi")
+            for (let i = 0; i < word.length; i++) {
+                /* Dove se la parola (word) corrisponde alla key */
+                inputs.querySelectorAll("input")[i].value = word[i]
+            }
+        }
+    })
+
+
 }
 
-
+/* Aggiungo evento al click al reset button */
+/* In questo modo, ad ogni click cambio la parola randomica grazie alla function randomWord */
+resetButton.addEventListener("click", randomWord)
 /* Evento dell'input utente */
 typingInput.addEventListener("input", initGame)
+inputs.addEventListener("click", () => typingInput.focus())
 document.addEventListener("keydown", () => typingInput.focus())
