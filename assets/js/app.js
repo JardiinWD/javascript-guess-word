@@ -7,6 +7,8 @@ const inputs = document.querySelector(".inputs")
 resetButton = document.querySelector(".reset-btn")
 /* ora pesco la classe della domanda */
 hint = document.querySelector(".hint span")
+/* Pesco il div di tentativi rimasti */
+guessLeft = document.querySelector(".guess-left span")
 /* Lettera sbagliata */
 wrongLetter = document.querySelector(".wrong-letter span")
 
@@ -16,7 +18,7 @@ wrongLetter = document.querySelector(".wrong-letter span")
 typingInput = document.querySelector(".typing-input")
 
 /* Parola */
-let word, corrects = [], incorrects = [];
+let word, maxGuess, corrects = [], incorrects = [];
 
 
 /**
@@ -28,13 +30,20 @@ function randomWord() {
     let ranObj = wordList[Math.floor(Math.random() * wordList.length)]
     /* Questa è la sola parola */
     word = ranObj.word
-    console.log("Questa è la verifica dell'oggetto randomico");
-    console.log(ranObj);
-    console.log(`Questa è la verifica della parola randomica : ${word}`);
+    /* Tentativi massimi dell'utente */
+    maxGuess = 8
+
+    /*  
+        console.log("Questa è la verifica dell'oggetto randomico");
+        console.log(ranObj);
+        console.log(`Questa è la verifica della parola randomica : ${word}`); 
+    */
+
     /* Alla mia costante hint (riga 9) appendo la suggestion hint del mio random object */
     /* Questa è dinamica e randomica */
     hint.innerHTML = ranObj.hint
-
+    /* Tentativi massimi */
+    guessLeft.innerHTML = maxGuess
 
     /* Ora creo la zona di input in relazione alla lunghezza delle parole randomiche */
     /* Inizialmente vuota */
@@ -83,12 +92,16 @@ function initGame(element) {
             }
         } else {
             /* Altrimenti se non la trovo esce questo */
+            /* Abbasso il numero di tentativi */
+            maxGuess--;
             /* console.log("Lettera non trovata"); */
             incorrects.push(`${key}`);
         }
+        guessLeft.innerHTML = maxGuess
+        /* In caso di lettera sbagliata */
+        wrongLetter.innerText = incorrects;
     }
-    /* In caso di lettera sbagliata */
-    wrongLetter.innerText = incorrects;
+
     /* Eseguo il clear dell'input una volta che l'utente ha digitato una lettera */
     typingInput.value = ""
 
